@@ -60,7 +60,7 @@ export const connect = () => {
         const accounts = await provider.request({
           method: "eth_requestAccounts",
         });
-        const networkId = await ethereum.request({
+        const networkId = await provider.request({
           method: "eth_chainId",
         });
         console.log("networkID", networkId);
@@ -77,10 +77,10 @@ export const connect = () => {
             })
           );
           // Add listeners start
-          ethereum.on("accountsChanged", (accounts) => {
+          provider.on("accountsChanged", (accounts) => {
             dispatch(updateAccount(accounts[0]));
           });
-          ethereum.on("chainChanged", () => {
+          provider.on("chainChanged", () => {
             window.location.reload();
           });
           // Add listeners end
@@ -91,10 +91,7 @@ export const connect = () => {
         dispatch(connectFailed("Something went wrong."));
       }        
     } else {
-        dispatch(connectFailed("Install Metamask."));
-        // } else {
-        //   dispatch(connectFailed("Install Metamask."));
-        // }
+      dispatch(connectFailed("Install Metamask."));        
     }    
   };
 };
