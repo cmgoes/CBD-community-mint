@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect, connectmobile } from "./redux/blockchain/blockchainActions";
+import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
@@ -347,11 +347,11 @@ function App() {
                       CONNECT
                     </StyledButton>
                     <StyledMintButton
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(connectmobile());
-                        getData();
-                      }}
+                      // onClick={(e) => {
+                      //   e.preventDefault();
+                      //   dispatch(connectmobile());
+                      //   getData();
+                      // }}
                     >
                     <StyledMintLink
                       href={mintlink}                        
