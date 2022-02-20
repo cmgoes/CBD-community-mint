@@ -51,56 +51,51 @@ export const connect = () => {
     const CONFIG = await configResponse.json();
     const provider = await detectEthereumProvider();
 
-    if (provider) {
-      if (provider !== window.ethereum) {
-        dispatch(connectFailed("Install Metamask."));
-      } else {
-        const { ethereum } = window;      
-        
-        Web3EthContract.setProvider(ethereum);
-        let web3 = new Web3(ethereum);
-        try {
-          const accounts = await ethereum.request({
-            method: "eth_requestAccounts",
+    if (provider) {      
+      const { ethereum } = window;      
+      
+      Web3EthContract.setProvider(ethereum);
+      let web3 = new Web3(ethereum);
+      try {
+        const accounts = await provider.request({
+          method: "eth_requestAccounts",
+        });
+        const networkId = await ethereum.request({
+          method: "eth_chainId",
+        });
+        console.log("networkID", networkId);
+        if (networkId === CONFIG.NETWORK.ID) {
+          const SmartContractObj = new Web3EthContract(
+            abi,
+            CONFIG.CONTRACT_ADDRESS
+          );
+          dispatch(
+            connectSuccess({
+              account: accounts[0],
+              smartContract: SmartContractObj,
+              web3: web3,
+            })
+          );
+          // Add listeners start
+          ethereum.on("accountsChanged", (accounts) => {
+            dispatch(updateAccount(accounts[0]));
           });
-          const networkId = await ethereum.request({
-            method: "eth_chainId",
+          ethereum.on("chainChanged", () => {
+            window.location.reload();
           });
-          console.log("networkID", networkId);
-          if (networkId === CONFIG.NETWORK.ID) {
-            const SmartContractObj = new Web3EthContract(
-              abi,
-              CONFIG.CONTRACT_ADDRESS
-            );
-            dispatch(
-              connectSuccess({
-                account: accounts[0],
-                smartContract: SmartContractObj,
-                web3: web3,
-              })
-            );
-            // Add listeners start
-            ethereum.on("accountsChanged", (accounts) => {
-              dispatch(updateAccount(accounts[0]));
-            });
-            ethereum.on("chainChanged", () => {
-              window.location.reload();
-            });
-            // Add listeners end
-          } else {
-            dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
-          }
-        } catch (err) {
-          dispatch(connectFailed("Something went wrong."));
+          // Add listeners end
+        } else {
+          dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
         }
+      } catch (err) {
+        dispatch(connectFailed("Something went wrong."));
+      }        
+    } else {
+        dispatch(connectFailed("Install Metamask."));
         // } else {
         //   dispatch(connectFailed("Install Metamask."));
         // }
-      }
-    } else {
-      console.log('Please install MetaMask!');
-    }      
-    
+    }    
   };
 };
 
