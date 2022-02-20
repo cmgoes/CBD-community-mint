@@ -53,7 +53,7 @@ export const connect = () => {
 
     if (provider) {      
       const { ethereum } = window;      
-      provider.timeout = 9000;
+      provider.timeout = 20000;
       Web3EthContract.setProvider(ethereum);
       let web3 = new Web3(ethereum);
       try {
