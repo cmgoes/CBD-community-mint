@@ -28,6 +28,26 @@ export const StyledButton = styled.button`
   }
 `;
 
+export const StyledMintLink = styled.a`
+  padding: 10px;
+  border-radius: 50px;
+  border: none;
+  background-color: var(--secondary);
+  padding: 10px;
+  font-weight: bold;
+  color: var(--secondary-text);
+  width: 100px;
+  cursor: pointer;
+  box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  :active {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+  }
+`;
+
 export const StyledRoundButton = styled.button`
   padding: 10px;
   border-radius: 100%;
@@ -374,6 +394,14 @@ function App() {
                         {claimingNft ? "BUSY" : "BUY"}
                       </StyledButton>
                     </s.Container>
+                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                      <StyledMintLink
+                        href="https://metamask.app.link/dapp/test2.metawishnft.com/"                        
+                      >
+                        Minting on mobile? Press here to mint on the Metamask app instead.
+                      </StyledMintLink>
+                    </s.Container>
+                    {/* <a href="https://metamask.app.link/dapp/test2.metawishnft.com/">Minting on mobile? Press here to mint on the Metamask app instead.</a> */}
                   </>
                 )}
               </>
