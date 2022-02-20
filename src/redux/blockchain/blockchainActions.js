@@ -49,13 +49,13 @@ export const connect = () => {
     });
     const CONFIG = await configResponse.json();
     const { ethereum } = window;
-    // const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
-    const metamaskIsInstalled = window.ethereum;
+    const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
+    // const metamaskIsInstalled = window.ethereum;
     if (metamaskIsInstalled) {
       Web3EthContract.setProvider(ethereum);
       let web3 = new Web3(ethereum);
       try {
-        const accounts = await window.ethereum.request({
+        const accounts = await ethereum.request({
           method: "eth_requestAccounts",
         });
         const networkId = await ethereum.request({
@@ -91,6 +91,40 @@ export const connect = () => {
     } else {
       dispatch(connectFailed("Install Metamask."));
     }
+  };
+};
+
+export const connectmobile = () => {
+  return async (dispatch) => {   
+    const abiResponse = await fetch("/config/abi.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const abi = await abiResponse.json();
+    const configResponse = await fetch("/config/config.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const CONFIG = await configResponse.json();
+    const { ethereum } = window;    
+    
+      Web3EthContract.setProvider(ethereum);
+      let web3 = new Web3(ethereum);      
+      const SmartContractObj = new Web3EthContract(
+        abi,
+        CONFIG.CONTRACT_ADDRESS
+      );
+      dispatch(
+        connectSuccess({              
+          smartContract: SmartContractObj,
+          web3: web3,
+        })
+      );         
+        
   };
 };
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from "./redux/blockchain/blockchainActions";
+import { connect, connectmobile } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 
+const mintlink = "https://metamask.app.link/dapp/test2.metawishnft.com/";
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
 
@@ -16,7 +17,8 @@ export const StyledButton = styled.button`
   padding: 10px;
   font-weight: bold;
   color: var(--secondary-text);
-  width: 100px;
+  width: 160px;
+  text-align: center;
   cursor: pointer;
   box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
   -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
@@ -28,17 +30,11 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const StyledMintLink = styled.a`
-  padding: 10px;
+export const StyledMintButton = styled.button`    
+  margin-top: 20px;
   border-radius: 50px;
   border: none;
-  display: block;
   background-color: var(--secondary);
-  padding: 10px;
-  font-weight: bold;
-  color: black;
-  width: 100px;
-  cursor: pointer;
   box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
   -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
   -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
@@ -47,6 +43,30 @@ export const StyledMintLink = styled.a`
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
   }
+`;
+
+export const StyledMintLink = styled.a`
+  // padding: 10px;
+  // margin-top: 20px;
+  text-decoration: none;
+  // border-radius: 50px;
+  border: none;
+  display: block;
+  // background-color: var(--secondary);
+  padding: 10px;
+  font-weight: bold;
+  color: var(--secondary-text);
+  width: 160px;
+  text-align: center;
+  cursor: pointer;
+  // box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  // -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  // -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  // :active {
+  //   box-shadow: none;
+  //   -webkit-box-shadow: none;
+  //   -moz-box-shadow: none;
+  // }
 `;
 
 export const StyledRoundButton = styled.button`
@@ -326,11 +346,19 @@ function App() {
                     >
                       CONNECT
                     </StyledButton>
+                    <StyledMintButton
+                      onClick={(e) => {
+                        e.preventDefault();
+                        dispatch(connectmobile());
+                        getData();
+                      }}
+                    >
                     <StyledMintLink
-                        href="https://metamask.app.link/dapp/test2.metawishnft.com/"                        
-                      >
-                        Minting on mobile
-                      </StyledMintLink>
+                      href={mintlink}                        
+                    >
+                      Minting on mobile
+                    </StyledMintLink>
+                    </StyledMintButton>
                     {blockchain.errorMsg !== "" ? (
                       <>
                         <s.SpacerSmall />
