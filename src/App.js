@@ -32,10 +32,11 @@ export const StyledMintLink = styled.a`
   padding: 10px;
   border-radius: 50px;
   border: none;
+  display: block;
   background-color: var(--secondary);
   padding: 10px;
   font-weight: bold;
-  color: var(--secondary-text);
+  color: black;
   width: 100px;
   cursor: pointer;
   box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
@@ -325,6 +326,11 @@ function App() {
                     >
                       CONNECT
                     </StyledButton>
+                    <StyledMintLink
+                        href="https://metamask.app.link/dapp/test2.metawishnft.com/"                        
+                      >
+                        Minting on mobile
+                      </StyledMintLink>
                     {blockchain.errorMsg !== "" ? (
                       <>
                         <s.SpacerSmall />
@@ -394,13 +400,13 @@ function App() {
                         {claimingNft ? "BUSY" : "BUY"}
                       </StyledButton>
                     </s.Container>
-                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                    {/* <s.Container ai={"center"} jc={"center"} fd={"row"}>                      
                       <StyledMintLink
                         href="https://metamask.app.link/dapp/test2.metawishnft.com/"                        
                       >
-                        Minting on mobile? Press here to mint on the Metamask app instead.
+                        Minting on mobile
                       </StyledMintLink>
-                    </s.Container>
+                    </s.Container> */}
                     {/* <a href="https://metamask.app.link/dapp/test2.metawishnft.com/">Minting on mobile? Press here to mint on the Metamask app instead.</a> */}
                   </>
                 )}
